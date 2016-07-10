@@ -1,0 +1,135 @@
+---
+layout: default
+---
+
+# Hover Android SDK
+
+## Installation
+
+1. Add our SDK to your app-level build.gradle dependencies. Note that we also currently require Crashlytics from Fabric which will eventually be removed:
+
+       buildscript {
+         repositories {
+           mavenCentral()
+           maven { url 'http://maven.usehover.com.s3-website-eu-west-1.amazonaws.com/releases' }
+           maven { url 'https://maven.fabric.io/public' }
+         }
+   
+         dependencies {
+           classpath 'com.android.tools.build:gradle:2.1.0'
+           classpath 'io.fabric.tools:gradle:1.+'
+         }
+       }
+   
+       apply plugin: 'io.fabric'
+   
+       repositories {
+         mavenCentral()
+         maven { url 'https://maven.fabric.io/public' }
+         maven { url 'http://maven.usehover.com.s3-website-eu-west-1.amazonaws.com/releases' }
+       }
+   
+       dependencies {
+         compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') { transitive = true }
+         compile('com.hover:android-sdk:0.6.3@aar') { transitive = true; }
+       }
+
+2. Add your API key to your Android Manifest:
+
+       <meta-data
+          android:name="com.hover.ApiKey"  
+          android:value="<YOUR_API_KEY>"/>
+
+## Use
+
+### 1. Add a Hover Integration
+
+In your Main Activity `onCreate` method add a Hover Integration. This is necessary for the user to give you permission to use the mobile money service. It will also request that the user enable Accessibility Service if neccessary:
+
+    HoverIntegration.add("Vodacom", hoverListener, this);
+
+The first argument must one of our supported Mobile Money Operators, which you can find at:
+The second argument can be null or an implementation of `HoverIntegration.HoverListener` which provides callbacks for errors or success upon adding the integration. More on it later. The final argument is the Context.
+
+You may also ask permission to use any Mobile Money available to the user. This is useful if you wish to support multiple operators in the same country or accross multiple countries. This will ask the user to choose one of the operators supported by their SIM card.
+
+    HoverIntegration.add(hoverListener, this);
+
+In this case the `hoverListener` `onSuccess` callback can be used to find out which operator they chose and, for convenience, what currency it uses.
+
+### 2. Create a request
+
+Create a request and launch the intent, for example, when a button is pressed:  
+
+```java
+Intent i = new Hover.Builder(this).request("send", amount, "Tsh", recipient).from("Vodacom");
+startActivityForResult(i, 0);
+```
+
+### 3. Use the result 
+
+Implement `onActivityResult` to get the outcome of the request:
+
+```java
+@Override
+protected void onActivityResult (int requestCode, int resultCode, Intent data) {
+  if (resultCode == Activity.RESULT_OK) {
+    Log.i("Example", "The data Intent contains the details of the transaction");
+  } else if (resultCode == Activity.RESULT_CANCELED) {
+    Log.i("Example", data.getStringExtra("result") + " contains the error that occured");
+  }
+}
+```
+
+If the request is successful the `data Intent` that is returned will contain the details of the transaction, such as the confirmation code, timestamp, and full response message from the operator. See below for details.
+ 
+### 4. Save proof of payment
+
+Send the proof of payment to your servers for verification. Mobile networks are unreliable. If you can't reach your server, save the proof of payment and try again later.
+
+## HoverIntegration.HoverListener Interface
+
+Implement this interface to receive the call backs:
+
+```
+public interface HoverListener {
+  void onSIMError();
+  void onUserDenied();
+  void onSuccess(String operator, String currency);
+}
+```
+
+If on `SIMError` or `UserDenied` are called, then adding the integration has failed. For the former, the user does not have a SIM that supports the integration requested or possibly any SIM at all. For the latter, they did not give permission to use the integration requested. In this case you may show a message explaining why it is neccessary and ask them again by remaking the same call to `HoverIntegration.add()`.
+
+`onSuccess` passes back the operator and currency. This is especially useful if you asked for permission to use any mobile money available to the user, which they choose.
+
+## Transaction result details
+The details about a transaction are simply String extras on the data intent. So to get the confirmation code just write `data.getStringExtra("code")` All possible extras follow, please note that not all requests supply all extras. They depend on what the Mobile Money Operator supplies in the message.
+
+```
+"operator_name"
+"action": Should match the action supplied by to the request. e.g. "send"
+"code": Transaction confirmation code. Many MMO's supply these even for balance checks etc
+"currency"
+"amount": Amount of money sent or recieved. Note that balance is a separate field.
+"balance": User's balance at completion of this transaction.
+"number": Recipient or Sender.
+"request_timestamp": Time user initiated transaction. Unix time.
+"response_timestamp": Time operator confirmed. (The timestamp supplied in the confirmation message) Unix time.
+"orig_message": Full confirmation message from the operator.
+```
+
+## More about verifying payments
+
+The Hover Android SDK:
+
+  * Presents UI to get permission and confirm payment from the user.
+  * Coordinates payment with mobile money service.
+  * Returns a proof of payment to your app.
+  
+Your code:
+
+  * Triggers a payment, either when a user interaction happens or on a schedule (e.g. for a subscription).
+  * Receives proof of payment from the Hover Android SDK.
+  * Sends proof of payment to your servers for verification.
+  * Provides the user their goods or services.
