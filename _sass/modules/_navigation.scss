@@ -1,0 +1,90 @@
+.navigation {
+  $large-screen: 50em !default;
+  $medium-screen: 30em !default;
+
+  border-bottom: 1px solid $light-gray;
+  background: linear-gradient(lighten($dark-blue, 10%), $dark-blue 60%, $dark-blue);
+
+  // Mobile view
+  .navigation-menu-button {
+    display: block;
+    float: right;
+    margin: 0;
+    color: white;
+    line-height: $nav-height;
+
+    @include media ($medium-screen) {
+      display: none;
+    }
+  }
+
+  // Nav menu
+  .navigation-wrapper {
+    @include clearfix;
+    position: relative;
+    padding: 0 $base-spacing;
+  }
+
+  .logo {
+    float: left;
+
+    img {
+      max-height: 2em;
+      padding-right: 1em;
+      position: relative;
+      top: 0.65em;
+    }
+  }
+
+  nav {
+    float: none;
+
+    @include media ($medium-screen) {
+      float: right;
+      text-align: center;
+    }
+  }
+
+  ul.navigation-menu {
+    clear: both;
+    display: none;
+    margin: 0 auto;
+    overflow: visible;
+    padding: 0;
+    width: 100%;
+
+    @include media ($medium-screen) {
+      display: block;
+      margin: 0;
+      padding: 0;
+    }
+
+    &.show {
+      display: block;
+    }
+  }
+
+  // Nav items
+  ul li.nav-link {
+    display: block;
+    text-align: right;
+    width: 100%;
+    line-height: $nav-height;
+
+    @include media ($medium-screen) {
+      background: transparent;
+      display: inline;
+      text-decoration: none;
+      width: auto;
+    }
+  }
+
+  li.nav-link a {
+    display: inline-block;
+    color: white;
+
+    @include media ($large-screen) {
+      padding-right: 1em;
+    }
+  }
+}
