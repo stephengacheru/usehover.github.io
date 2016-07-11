@@ -6,7 +6,7 @@ layout: default
 
 ## Installation
 
-### 1. Add the Hover SDK
+### 1. Add the SDK
 
 Add Hover to your app-level build.gradle dependencies. Note that we also currently require Crashlytics from Fabric which will eventually be removed:
 
@@ -38,7 +38,9 @@ dependencies {
 }
 {% endhighlight %}
 
-2. Add your API key to your Android Manifest:
+### 2. Add your API key
+
+Add your API key to your Android Manifest:
 
 {% highlight xml %}
 <meta-data
