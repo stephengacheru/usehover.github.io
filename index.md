@@ -34,7 +34,7 @@ repositories {
 
 dependencies {
   compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') { transitive = true }
-  compile('com.hover:android-sdk:0.7.0@aar') { transitive = true; }
+  compile('com.hover:android-sdk:0.7.1@aar') { transitive = true; }
 }
 {% endhighlight %}
 
