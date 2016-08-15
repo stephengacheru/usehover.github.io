@@ -38,9 +38,25 @@ dependencies {
 }
 {% endhighlight %}
 
-### 2. Add your API key
+### 2. Add your API Key and Permissions to the Manifest
+Permissions:
 
-Add your API key to your Android Manifest:
+{% highlight xml %}
+<uses-permission android:name="android.permission.CALL_PHONE"/>
+<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+<uses-permission android:name="android.permission.READ_LOGS"/>
+<uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+<uses-permission android:name="android.permission.READ_CONTACTS"/>
+<uses-permission android:name="android.permission.READ_PROFILE"/>
+<uses-permission android:name="android.permission.RECEIVE_SMS"/>
+<uses-permission android:name="android.permission.READ_SMS"/>
+<uses-permission android:name="android.permission.BIND_ACCESSIBILITY_SERVICE"/>
+<uses-permission android:name="android.permission.INTERNET"/>
+
+<uses-feature android:name="android.hardware.telephony"/>
+{% endhighlight %}
+
+Add your API key:
 
 {% highlight xml %}
 <meta-data
@@ -107,7 +123,7 @@ Implement this interface to receive the call backs:
 public interface HoverListener {
   void onSIMError();
   void onUserDenied();
-  void onSuccess(String operator, String currency);
+  void onSuccess(String operator, String countryName, String currency);
 }
 {% endhighlight %}
 
