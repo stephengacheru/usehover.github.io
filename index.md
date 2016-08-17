@@ -11,43 +11,39 @@ As of Aug 17, 2016 the current version of the Hover SDK is 0.7.1
 This SDK supports Android 4.3 - 6.0 (API 18-24). It can be used in apps with a wider range, but you must check the API level yourself before making a call to the Hover SDK.
 
 **Known issues:**
-+ Using the SDK in an app that targets API 23 or especially 24 can cause permission issues due to the new permission mechanism that Google introduced. We will be updating this soon.
+* Using the SDK in an app that targets API 23 or especially 24 can cause permission issues due to the new permission mechanism that Google introduced. We will be updating this soon.
 
 ## Installation
 
+### 0. Install [Crashlytics] (https://fabric.io/kits/android/crashlytics/install). This requirement will soon be removed.
+
 ### 1. Add the SDK
 
-Add Hover to your app-level build.gradle dependencies. Note that we also currently require Crashlytics from Fabric which will eventually be removed:
+Add Hover to your app-level build.gradle dependencies.
 
 {% highlight gradle %}
 buildscript {
   repositories {
     mavenCentral()
     maven { url 'http://maven.usehover.com.s3-website-eu-west-1.amazonaws.com/releases' }
-    maven { url 'https://maven.fabric.io/public' }
   }
 
   dependencies {
     classpath 'com.android.tools.build:gradle:2.1.0'
-    classpath 'io.fabric.tools:gradle:1.+'
   }
 }
 
-apply plugin: 'io.fabric'
-
 repositories {
   mavenCentral()
-  maven { url 'https://maven.fabric.io/public' }
   maven { url 'http://maven.usehover.com.s3-website-eu-west-1.amazonaws.com/releases' }
 }
 
 dependencies {
-  compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') { transitive = true }
   compile('com.hover:android-sdk:0.7.1@aar') { transitive = true; }
 }
 {% endhighlight %}
 
-### 2. Add your API Key and Permissions to the Manifest
+### 2. Add required Permissions and your Hover API Key to the Manifest
 Permissions:
 
 {% highlight xml %}
@@ -65,7 +61,7 @@ Permissions:
 <uses-feature android:name="android.hardware.telephony"/>
 {% endhighlight %}
 
-Add your API key:
+Add your API key which you can find on your [Hover dashboard](https://www.usehover.com/apps) by clicking on the relevant app:
 
 {% highlight xml %}
 <meta-data
@@ -83,8 +79,8 @@ In your Main Activity `onCreate` method add a Hover Integration. This is necessa
 HoverIntegration.add("Vodacom", hoverListener, this);
 {% endhighlight %}
 
-The first argument must one of our supported Mobile Money Operators, which you can find at:
-The second argument can be null or an implementation of `HoverIntegration.HoverListener` which provides callbacks for errors or success upon adding the integration. More on it later. The final argument is the Context.
+The first argument must one of our supported Mobile Money Operators, which you can find [here](#).
+The second argument can be `null` or an implementation of `HoverIntegration.HoverListener` which provides callbacks for errors or success upon adding the integration. More on it later. The final argument is the `Context`.
 
 You may also ask permission to use any Mobile Money available to the user. This is useful if you wish to support multiple operators in the same country or accross multiple countries. This will ask the user to choose one of the operators supported by their SIM card.
 
@@ -138,7 +134,7 @@ public interface HoverListener {
 
 If on `SIMError` or `UserDenied` are called, then adding the integration has failed. For the former, the user does not have a SIM that supports the integration requested or possibly any SIM at all. For the latter, they did not give permission to use the integration requested. In this case you may show a message explaining why it is neccessary and ask them again by remaking the same call to `HoverIntegration.add()`.
 
-`onSuccess` passes back the operator and currency. This is especially useful if you asked for permission to use any mobile money available to the user, which they choose.
+`onSuccess` passes back the operator, country, and currency. This is especially useful if you asked for permission to use any mobile money available to the user, which they choose.
 
 ## Transaction result details
 The details about a transaction are simply String extras on the data intent. To get the confirmation code just write `data.getStringExtra("code")`.
