@@ -6,16 +6,18 @@ layout: default
 
 **Hover is currently in Alpha and may be unstable. If you have issues please get in touch with us.**
 
-As of Aug 17, 2016 the current version of the Hover SDK is 0.7.1
+As of Aug 17, 2016 the current version of the Hover SDK is 0.8.1
 
 This SDK supports Android 4.3 - 6.0 (API 18-24). It can be used in apps with a wider range, but you must check the API level yourself before making a call to the Hover SDK.
 
 **Known issues:**
+
 * Using the SDK in an app that targets API 23 or especially 24 can cause permission issues due to the new permission mechanism that Google introduced. We will be updating this soon.
 
 ## Installation
 
-### 0. Install [Crashlytics] (https://fabric.io/kits/android/crashlytics/install). This requirement will soon be removed.
+### 0. Install [Crashlytics](https://fabric.io/kits/android/crashlytics/install). This requirement will soon be removed.
+
 
 ### 1. Add the SDK
 
@@ -39,7 +41,7 @@ repositories {
 }
 
 dependencies {
-  compile('com.hover:android-sdk:0.7.1@aar') { transitive = true; }
+  compile('com.hover:android-sdk:0.8.1@aar') { transitive = true; }
 }
 {% endhighlight %}
 
@@ -101,22 +103,53 @@ startActivityForResult(i, 0);
 
 ### 3. Use the result 
 
-Implement `onActivityResult` to get the outcome of the request:
+Implement `onActivityResult` to get the outcome of the request. If the `resultCode` is `RESULT_OK` then as far as the SDK can tell the USSD request was made and is being processed by the Mobile Money Operator. See the next step to receive the final result. If the result code is `RESULT_CANCELED` then something went wrong and you should not expect the request succeeded. The data intent returned will have a String Extra called `result` which will contain the error message. There are 2 types of failure: If the Intent that started the activity was improperly formed then a request was never made to the Mobile Money Operator. There will be no transaction and it will not count against your Hover transaction count. However, if the request failed after a request was actually made to the Mobile Money Operator then the data intent returned will include a `transaction_id` and the request will count against your Hover transaction count. This can happen because the user had insufficient balance, the amount sent was under the minimum amount required by the operator, or a host of other reasons. We recomend that in this case the `result` extra is shown to the user so that they can find out what went wrong.
 
 {% highlight java %}
 @Override
 protected void onActivityResult (int requestCode, int resultCode, Intent data) {
   if (resultCode == Activity.RESULT_OK) {
-    Log.i("Example", "The data Intent contains the details of the transaction");
+    Log.i("Example", data.getStringExtra("result") + " contains the message from the operator");
+    Log.i("Example", data.getStringExtra("transaction_id") + " contains the id of the pending transaction");
   } else if (resultCode == Activity.RESULT_CANCELED) {
     Log.i("Example", data.getStringExtra("result") + " contains the error that occured");
+    if (data.hasExtra("transaction_id") // If a request was actually made to the Mobile Money Operator
+      Log.i("Example", data.getStringExtra("transaction_id") + " contains the id of the failed transaction");
   }
 }
 {% endhighlight %}
 
-If the request is successful the `data Intent` that is returned will contain the details of the transaction, such as the confirmation code, timestamp, and full response message from the operator. See below for details.
+### 4. Receive the transaction result
+
+Add a `BroadcastReceiver` which receives intents with the action `YOUR.PACKAGE.NAME.CONFIRMED_TRANSACTION` to your Android Manifest. **Make sure that it is not exported**:
+
+{% highlight xml %}
+<receiver
+    android:name=".TransactionReceiver"
+    android:enabled="true"
+    android:exported="false">
+    <intent-filter>
+        <action android:name="your.package.name.CONFIRMED_TRANSACTION"/>
+    </intent-filter>
+</receiver>
+{% endhighlight %}
+
+Create the Receiver itself and use the intent as you need:
+
+{% highlight java %}
+public class TransactionReceiver extends BroadcastReceiver {
+	public TransactionReceiver() { }
+
+	@Override
+	public void onReceive(Context context, Intent intent) {
+	  intent.getStringExtra("code");
+	}
+}
+{% endhighlight %}
+
+The intent received will contain the details of the transaction, such as the confirmation code, timestamp, and full response message from the operator. See below for details.
  
-### 4. Save proof of payment
+### 5. Save proof of payment
 
 Send the proof of payment to your servers for verification. Mobile networks are unreliable. If you can't reach your server, save the proof of payment and try again later.
 
