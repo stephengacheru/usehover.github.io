@@ -8,7 +8,7 @@ layout: default
 
 As of Aug 17, 2016 the current version of the Hover SDK is 0.8.1
 
-This SDK supports Android 4.3 - 6.0 (API 18-24). It can be used in apps with a wider range, but you must check the API level yourself before making a call to the Hover SDK.
+This SDK supports Android 4.3 - 7.0 (API 18-24). It can be used in apps with a wider range, but you must check the API level yourself before making a call to the Hover SDK.
 
 **Known issues:**
 
@@ -84,13 +84,13 @@ HoverIntegration.add("Vodacom", hoverListener, this);
 The first argument must one of our supported Mobile Money Operators, which you can find [here](#).
 The second argument can be `null` or an implementation of `HoverIntegration.HoverListener` which provides callbacks for errors or success upon adding the integration. More on it later. The final argument is the `Context`.
 
-You may also ask permission to use any Mobile Money available to the user. This is useful if you wish to support multiple operators in the same country or accross multiple countries. This will ask the user to choose one of the operators supported by their SIM card.
+You may also ask permission to use any Mobile Money available to the user. This is useful if you wish to support multiple operators in the same country or across multiple countries. This will ask the user to choose one of the operators supported by their SIM card.
 
 {% highlight java %}
 HoverIntegration.add(hoverListener, this);
 {% endhighlight %}
 
-In this case the `hoverListener` `onSuccess` callback can be used to find out which operator they chose and, for convenience, what currency it uses.
+In this case the `hoverListener` `onSuccess` callback can be used to find out which operator they chose and, for convenience, what country it is from and what currency it uses.
 
 ### 2. Create a request
 
