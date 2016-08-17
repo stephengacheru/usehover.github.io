@@ -4,6 +4,15 @@ layout: default
 
 # Hover Android SDK
 
+**Hover is currently in Alpha and may be unstable. If you have issues please get in touch with us.**
+
+As of Aug 17, 2016 the current version of the Hover SDK is 0.7.1
+
+This SDK supports Android 4.3 - 6.0 (API 18-24). It can be used in apps with a wider range, but you must check the API level yourself before making a call to the Hover SDK.
+
+**Known issues:**
++ Using the SDK in an app that targets API 23 or especially 24 can cause permission issues due to the new permission mechanism that Google introduced. We will be updating this soon.
+
 ## Installation
 
 ### 1. Add the SDK
