@@ -90,7 +90,7 @@ protected void onCreate(Bundle savedInstanceState) {
 
 @Override
 public void onRequestPermissionsResult(int requestCode,	String permissions[], int[] grantResults) {
-	if (grantResults.length > 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+	if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
     		HoverIntegration.add("Vodacom", hoverListener, this);
 	} else {
     		// Explain why you need the permission
@@ -126,7 +126,7 @@ Implement `onActivityResult` to get the outcome of the request. If the `resultCo
 @Override
 protected void onActivityResult (int requestCode, int resultCode, Intent data) {
   if (resultCode == Activity.RESULT_OK) {
-    Log.i("Example", data.getStringExtra("result") + " contains the message from the operator");
+    Log.i("Example", data.getStringExtra("response_message") + " contains the message from the operator");
     Log.i("Example", data.getStringExtra("transaction_id") + " contains the id of the pending transaction");
   } else if (resultCode == Activity.RESULT_CANCELED) {
     Log.i("Example", data.getStringExtra("result") + " contains the error that occured");
