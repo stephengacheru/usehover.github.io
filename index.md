@@ -12,9 +12,9 @@ This SDK supports Android 4.3 - 7.0 (API 18-24). It can be used in apps with a w
 
 **Known issues:**
 
-* Using the SDK in an app that targets API 23 or especially 24 can cause permission issues due to the new permission mechanism that Google introduced. We will be updating this soon.
+* Using the SDK in an app that targets API 23 or 24 can cause permission issues due to the new permission mechanism that Google introduced. We will be updating this soon, but for now if your app targets 23 or 24 you must ask for `android.permission.CALL_PHONE` and `android.permission.RECEIVE_SMS` prior to a call to request a payment (step 2 of "Using the SDK" below)
 
-## Installation
+## Installing the SDK
 
 ### 0. Install [Crashlytics](https://fabric.io/kits/android/crashlytics/install). This requirement will soon be removed.
 
@@ -69,17 +69,36 @@ Add your API key which you can find on your [Hover dashboard](https://www.usehov
    android:value="<YOUR_API_KEY>"/>
 {% endhighlight %}
 
-## Use
+## Using the SDK
 
 ### 1. Add a Hover Integration
 
-In your Main Activity `onCreate` method add a Hover Integration. This is necessary for the user to give you permission to use the mobile money service. It will also request that the user enable Accessibility Service if neccessary:
+In your `Activity`, add a Hover Integration. If you are targeting API 23+ You must use [Run Time Permissions](https://developer.android.com/training/permissions/requesting.html) to first ask for permission to `READ_PHONE_STATE` so that Hover can check the user's SIM card compatability. `HoverIntegration.add()` is necessary for the user to give you permission to use the mobile money service. It will also request that the user enable Accessibility Service if neccessary:
 
 {% highlight java %}
-HoverIntegration.add("Vodacom", hoverListener, this);
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+	super.onCreate(savedInstanceState);
+	...
+	
+	if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+		ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.READ_PHONE_STATE }, 0);
+	} else {
+		HoverIntegration.add("Vodacom", hoverListener, this);
+	}
+}
+
+@Override
+public void onRequestPermissionsResult(int requestCode,	String permissions[], int[] grantResults) {
+	if (grantResults.length > 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+    		HoverIntegration.add("Vodacom", hoverListener, this);
+	} else {
+    		// Explain why you need the permission
+    	}
+}
 {% endhighlight %}
 
-The first argument must one of our supported Mobile Money Operators, which you can find [here](#).
+The first argument to `HoverIntegration.add()` must one of our supported Mobile Money Operators, which you can find [here](#).
 The second argument can be `null` or an implementation of `HoverIntegration.HoverListener` which provides callbacks for errors or success upon adding the integration. More on it later. The final argument is the `Context`.
 
 You may also ask permission to use any Mobile Money available to the user. This is useful if you wish to support multiple operators in the same country or across multiple countries. This will ask the user to choose one of the operators supported by their SIM card.
