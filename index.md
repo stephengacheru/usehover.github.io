@@ -14,7 +14,7 @@ This SDK supports Android 4.3 - 7.0 (API 18-24). It can be used in apps with a w
 
 * Using the SDK in an app that targets API 23 or 24 can cause permission issues due to the new permission mechanism that Google introduced. We will be updating this soon, but for now if your app targets 23 or 24 you must ask for `android.permission.CALL_PHONE` and `android.permission.RECEIVE_SMS` prior to a call to request a payment (step 2 of "Using the SDK" below)
 
-## Installing the SDK
+## [Installing the SDK](#installation)
 
 ### 0. Install [Crashlytics](https://fabric.io/kits/android/crashlytics/install). This requirement will soon be removed.
 
@@ -69,7 +69,7 @@ Add your API key which you can find on your [Hover dashboard](https://www.usehov
    android:value="<YOUR_API_KEY>"/>
 {% endhighlight %}
 
-## Using the SDK
+## [Using the SDK](#Using)
 
 ### 1. Add a Hover Integration
 
@@ -186,7 +186,14 @@ If on `SIMError` or `UserDenied` are called, then adding the integration has fai
 
 `onSuccess` passes back the operator, country, and currency. This is especially useful if you asked for permission to use any mobile money available to the user, which they choose.
 
-## Transaction result details
+## [Testing Your Integration](#testing)
+To test a specific operator replace your call to `HoverIntegration.add()` with:
+{% highlight java %}
+HoverIntegration.test("operatorSlug", hoverListener, context);
+{% endhighlight %}
+This will not actually contact the operator or transfer real money, allowing you to test without the appropriate SIM card or network connection. `OnActivityResult` will return successful if your request had the appropriate parameters. Your `TransactionReceiver` will also receive an `Intent` containing the details of the transaction which are possible to supply, including an ID, the parameters you sent, as well as the timestamp and a status of "test". **You cannot use the `test()` method in production, doing so will result in a Runtime Exception.**
+
+## [Transaction result details](#result-details)
 The details about a transaction are simply String extras on the data intent. To get the confirmation code just write `data.getStringExtra("code")`.
 
 All possible extras follow, please note that not all requests supply all extras. They depend on what the Mobile Money Operator supplies in the message.
