@@ -206,7 +206,7 @@ Extra | Description
 `currency` | 
 `amount` | Amount of money sent or recieved (note that balance is a separate field)
 `balance` | User's balance at completion of this transaction
-`number` | Recipient or sender
+`who` | Recipient or sender
 `request_timestamp` | Time user initiated transaction (Unix time)
 `response_timestamp` | Time at which the operator confirmed (The timestamp supplied in the confirmation message, Unix time)
 `orig_message` | Full confirmation message from the operator
