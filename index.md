@@ -6,13 +6,13 @@ layout: default
 
 **Hover is currently in Alpha and may be unstable. If you have issues please get in touch with us.**
 
-As of Aug 17, 2016 the current version of the Hover SDK is 0.8.1
+As of Aug 28, 2016 the current version of the Hover SDK is 0.8.7
 
-This SDK supports Android 4.3 - 7.0 (API 18-24). It can be used in apps with a wider range, but you must check the API level yourself before making a call to the Hover SDK.
+This SDK supports Android 4.3 - 7.0 (API 18-24). It can be used in apps with a wider range, but you must check the API level yourself and only make a call to the Hover SDK if the user's Build API is within that range.
 
 **Known issues:**
 
-* Using the SDK in an app that targets API 23 or 24 can cause permission issues due to the new permission mechanism that Google introduced. We will be updating this soon, but for now if your app targets 23 or 24 you must ask for `android.permission.CALL_PHONE` and `android.permission.RECEIVE_SMS` prior to a call to request a payment (step 2 of "Using the SDK" below)
+* The test function does basic validation, but does not ensure that you have all of the required fields for a particular action. It will return all the values that it found, and it is currently up to you to ensure that these match the required values for the action. You can safely ignore the PIN, since the API takes care of getting this from the user for you.
 
 ## Installing the SDK
 
@@ -41,7 +41,7 @@ repositories {
 }
 
 dependencies {
-  compile('com.hover:android-sdk:0.8.1@aar') { transitive = true; }
+  compile('com.hover:android-sdk:0.8.7@aar') { transitive = true; }
 }
 {% endhighlight %}
 
@@ -191,6 +191,8 @@ To test a specific operator replace your call to `HoverIntegration.add()` with:
 {% highlight java %}
 HoverIntegration.test("operatorSlug", hoverListener, context);
 {% endhighlight %}
+Your call to `Hover.Builder()...from("operatorSlug");` must also specify the same operator.
+
 This will not actually contact the operator or transfer real money, allowing you to test without the appropriate SIM card or network connection. `OnActivityResult` will return successful if your request had the appropriate parameters. Your `TransactionReceiver` will also receive an `Intent` containing the details of the transaction which are possible to supply, including an ID, the parameters you sent, as well as the timestamp and a status of "test". **You cannot use the `test()` method in production, doing so will result in a Runtime Exception.**
 
 ## Transaction result details
