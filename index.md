@@ -88,16 +88,16 @@ protected void onCreate(Bundle savedInstanceState) {
 	if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
 		ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.READ_PHONE_STATE }, 0);
 	} else {
-		HoverIntegration.add("Vodacom", hoverListener, this);
+		HoverIntegration.add("vodacom_tanzania", hoverListener, this);
 	}
 }
 
 @Override
 public void onRequestPermissionsResult(int requestCode,	String permissions[], int[] grantResults) {
 	if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-    		HoverIntegration.add("Vodacom", hoverListener, this);
+    		HoverIntegration.add("vodacom_tanzania", hoverListener, this);
 	} else {
-    		// Explain why you need the permission
+    		// Explain why you need the permission and ask again
     	}
 }
 {% endhighlight %}
