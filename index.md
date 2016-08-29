@@ -14,6 +14,10 @@ This SDK supports Android 4.3 - 7.0 (API 18-24). It can be used in apps with a w
 
 * The test function does basic validation, but does not ensure that you have all of the required fields for a particular action. It will return all the values that it found, and it is currently up to you to ensure that these match the required values for the action. You can safely ignore the PIN, since the API takes care of getting this from the user for you.
 
+## Introduction
+
+Hover is an Android SDK which allows an Android app to use supported Mobile Money wallets to pay for goods and services in-app. A developer can initiate a payment when a User presses a button or takes another action, or can create a subscription. Hover will deal with initiating the transaction, including getting the user's PIN, and returning the confirmation back to the app. This means that apps can treat a Mobile Money payment just as they would a credit card payment.
+
 ## Installing the SDK
 
 ### 0. Install [Crashlytics](https://fabric.io/kits/android/crashlytics/install). This requirement will soon be removed.
