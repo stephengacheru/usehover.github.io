@@ -16,7 +16,7 @@ This SDK supports Android 4.3 - 7.0 (API 18-24). It can be used in apps with a w
 
 ## Introduction
 
-Hover is an Android SDK which allows an Android app to use supported Mobile Money wallets to pay for goods and services in-app. A developer can initiate a payment when a User presses a button or takes another action, or can create a subscription. Hover will deal with initiating the transaction, including getting the user's PIN, and returning the confirmation back to the app. This means that apps can treat a Mobile Money payment just as they would a credit card payment.
+Hover is an Android SDK which allows an Android app to use supported Mobile Money wallets to pay for goods and services in-app. A developer can initiate a payment when a User presses a button or takes another action, or can create a subscription. Hover will deal with initiating the transaction, including getting the user's permission, and returning the confirmation back to the app. This means that apps can treat a Mobile Money payment just as they would a credit card payment.
 
 ## Installing the SDK
 
