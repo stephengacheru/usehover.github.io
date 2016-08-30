@@ -31,7 +31,7 @@ Add Hover to your app-level build.gradle dependencies.
 buildscript {
   repositories {
     mavenCentral()
-    maven { url 'http://maven.usehover.com.s3-website-eu-west-1.amazonaws.com/releases' }
+    maven { url 'http://maven.usehover.com/releases' }
   }
 
   dependencies {
@@ -41,7 +41,7 @@ buildscript {
 
 repositories {
   mavenCentral()
-  maven { url 'http://maven.usehover.com.s3-website-eu-west-1.amazonaws.com/releases' }
+  maven { url 'http://maven.usehover.com/releases' }
 }
 
 dependencies {
