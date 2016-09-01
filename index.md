@@ -168,7 +168,7 @@ public class TransactionReceiver extends BroadcastReceiver {
 }
 {% endhighlight %}
 
-The intent received will contain the details of the transaction, such as the confirmation code, timestamp, and full response message from the operator. See below for details.
+The intent received will contain the details of the transaction, such as the confirmation code, timestamp, and full response message from the operator. See [below](http://docs.usehover.com/#transaction-result-details) for details.
  
 ### 5. Save proof of payment
 
