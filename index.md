@@ -13,6 +13,7 @@ This SDK supports Android 4.3 - 7.0 (API 18-24). It can be used in apps with a w
 **Known issues:**
 
 * The test function does basic validation, but does not ensure that you have all of the required fields for a particular action. It will return all the values that it found, and it is currently up to you to ensure that these match the required values for the action. You can safely ignore the PIN, since the API takes care of getting this from the user for you.
+* If your app targets API 22 or lower, but the device you are testing on runs API 24 (Android 7, Nougat) then the app will crash on startup because the library needs Run Time permissions to operate on API 24. The only known solution is to target API 23 or 24 and ask for the permission (as shown in [Add a Hover Integration](#add-a-hover-integration).
 
 ## Introduction
 
