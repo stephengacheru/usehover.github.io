@@ -13,7 +13,7 @@ This SDK supports Android 4.3 - 7.0 (API 18-24). It can be used in apps with a w
 **Known issues:**
 
 * The test function does basic validation, but does not ensure that you have all of the required fields for a particular action. It will return all the values that it found, and it is currently up to you to ensure that these match the required values for the action. You can safely ignore the PIN, since the API takes care of getting this from the user for you.
-* If your app targets API 22 or lower, but the device you are testing on runs API 24 (Android 7, Nougat) then the app will crash on startup because the library needs Run Time permissions to operate on API 24. The only known solution is to target API 23 or 24 and ask for the permission (as shown in [Add a Hover Integration](#add-a-hover-integration).
+* If your app targets API 22 or lower, but the device you are testing on runs API 24 (Android 7, Nougat) then the app will crash when adding an Hover Integration because the library needs Run Time permissions to operate on API 24. The only known solution is to target API 23 or 24 and ask for the permission (as shown in [Add a Hover Integration](#add-a-hover-integration).
 
 ## Introduction
 
@@ -78,7 +78,7 @@ Add your API key which you can find on your [Hover dashboard](https://www.usehov
 
 ### 1. Add a Hover Integration
 
-In your `Activity`, add a Hover Integration. If you are targeting API 23+ You must use [Run Time Permissions](https://developer.android.com/training/permissions/requesting.html) to first ask for permission to `READ_PHONE_STATE` so that Hover can check the user's SIM card compatability. `HoverIntegration.add()` is necessary for the user to give you permission to use the mobile money service. It will also request that the user enable Accessibility Service if neccessary:
+In your `Activity`, add a Hover Integration. You may do this in `onCreate` or when the user presses a button ("Add Payment Method" for example). If you are targeting API 23+ You must use [Run Time Permissions](https://developer.android.com/training/permissions/requesting.html) to first ask for permission to `READ_PHONE_STATE` so that Hover can check the user's SIM card compatability. `HoverIntegration.add()` is necessary for the user to give you permission to use the mobile money service. It will also request that the user enable Accessibility Service if neccessary:
 
 {% highlight java %}
 @Override
@@ -103,10 +103,11 @@ public void onRequestPermissionsResult(int requestCode,	String permissions[], in
 }
 {% endhighlight %}
 
-The first argument to `HoverIntegration.add()` must one of our supported Mobile Money Operators, which you can find [here](#).
+The first argument to `HoverIntegration.add()`must be one of our supported Mobile Money Operators, which you can find [here](#).
+
 The second argument can be `null` or an implementation of `HoverIntegration.HoverListener` which provides callbacks for errors or success upon adding the integration. More on it later. The final argument is the `Context`.
 
-You may also ask permission to use any Mobile Money available to the user. This is useful if you wish to support multiple operators in the same country or across multiple countries. This will ask the user to choose one of the operators supported by their SIM card.
+You may also ask permission to use any Mobile Money available to the user. This is useful if you wish to support multiple operators in the same country or across multiple countries. This will ask the user to choose one of the operators supported by their SIM card. This will also automatically detect changes of the SIM card.
 
 {% highlight java %}
 HoverIntegration.add(hoverListener, this);
@@ -123,9 +124,17 @@ Intent i = new Hover.Builder(this).request("send", amount, "Tsh", recipient).fro
 startActivityForResult(i, 0);
 {% endhighlight %}
 
+To use `startActivityForResult`, `this` must be an `Activity`, otherwise you should simply use `startActivty` (which will not tell you whether the request is being processed or not). In most cases you must supply arguments to `Hover.Builder` which are passed on to the Mobile Money Service. The required arguments for each request are included on the Supported Operators page. In most cases you supply extra arguments using the `extra()` method:
+
+{% highlight java %}
+Intent i = new Hover.Builder(this).request("pay_bill", amount, "Tsh").extra("who", pay_bill_no).extra("acct", acct_no).from("Vodacom");
+{% endhighlight %}
+
+For convenience the `request()` method optionally takes the `amount`, `currency`, and `recipient`. There are also convience methods `amount(amount, currency)' and 'to(recipient)`.
+
 ### 3. Use the result 
 
-Implement `onActivityResult` to get the outcome of the request. If the `resultCode` is `RESULT_OK` then as far as the SDK can tell the USSD request was made and is being processed by the Mobile Money Operator. See the next step to receive the final result. If the result code is `RESULT_CANCELED` then something went wrong and you should not expect the request succeeded. The data intent returned will have a String Extra called `result` which will contain the error message. There are 2 types of failure: If the Intent that started the activity was improperly formed then a request was never made to the Mobile Money Operator. There will be no transaction and it will not count against your Hover transaction count. However, if the request failed after a request was actually made to the Mobile Money Operator then the data intent returned will include a `transaction_id` and the request will count against your Hover transaction count. This can happen because the user had insufficient balance, the amount sent was under the minimum amount required by the operator, or a host of other reasons. We recomend that in this case the `result` extra is shown to the user so that they can find out what went wrong.
+Implement `onActivityResult` to get the outcome of the request (NOT confirmation of the transaction, see below). If the `resultCode` is `RESULT_OK` then as far as the SDK can tell the request was accepted and is being processed by the Mobile Money Operator. See the next step to receive the final result. If the result code is `RESULT_CANCELED` then something went wrong and you should not expect the request to succeed. In this case the data intent returned will have a String Extra called `result` which will contain the error message. There are 2 types of failure: If the Intent that started the activity was improperly formed then a request was never made to the Mobile Money Operator. There will be no transaction and it will not count against your Hover transaction count. However, if the request failed after a request was actually made to the Mobile Money Operator then the data intent returned will include a `transaction_id` and the request will count against your Hover transaction count. This can happen because the user had insufficient balance, the amount sent was under the minimum amount required by the operator, or a host of other reasons. We recomend that in this case the `result` extra is shown to the user so that they can find out what went wrong.
 
 {% highlight java %}
 @Override
@@ -143,7 +152,7 @@ protected void onActivityResult (int requestCode, int resultCode, Intent data) {
 
 ### 4. Receive the transaction result
 
-Add a `BroadcastReceiver` which receives intents with the action `YOUR.PACKAGE.NAME.CONFIRMED_TRANSACTION` to your Android Manifest. **Make sure that it is not exported**:
+Add a `BroadcastReceiver` which receives intents with the action `YOUR.PACKAGE.NAME.CONFIRMED_TRANSACTION` to your Android Manifest. **Make sure exported is false** otherwise another app could spoof successful transactions:
 
 {% highlight xml %}
 <receiver
@@ -198,7 +207,7 @@ HoverIntegration.test("operatorSlug", hoverListener, context);
 {% endhighlight %}
 Your call to `Hover.Builder()...from("operatorSlug");` must also specify the same operator.
 
-This will not actually contact the operator or transfer real money, allowing you to test without the appropriate SIM card or network connection. `OnActivityResult` will return successful if your request had the appropriate parameters. Your `TransactionReceiver` will also receive an `Intent` containing the details of the transaction which are possible to supply, including an ID, the parameters you sent, as well as the timestamp and a status of "test". **You cannot use the `test()` method in production, doing so will result in a Runtime Exception.**
+This will not actually contact the operator or transfer real money, allowing you to test without the appropriate SIM card or network connection. `OnActivityResult` will return successful if your request had the appropriate parameters. Your `TransactionReceiver` will also receive an `Intent` containing the details of the transaction which are possible to supply, including an ID, the parameters you sent, as well as the timestamp and a status of "test". **You cannot use the `test()` method in production, doing so will result in an IllegalState Exception.**
 
 ## Transaction result details
 The details about a transaction are simply String extras on the data intent. To get the confirmation code just write `data.getStringExtra("code")`.
