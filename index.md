@@ -13,7 +13,7 @@ This SDK supports Android 4.3 - 7.0 (API 18-24). It can be used in apps with a w
 **Known issues:**
 
 * The test function does basic validation, but does not ensure that you have all of the required fields for a particular action. It will return all the values that it found, and it is currently up to you to ensure that these match the required values for the action. You can safely ignore the PIN, since the API takes care of getting this from the user for you.
-* If your app targets API 22 or lower, but the device you are testing on runs API 24 (Android 7, Nougat) then the app will crash when adding an Hover Integration because the library needs Run Time permissions to operate on API 24. The only known solution is to target API 23 or 24 and ask for the permission (as shown in [Add a Hover Integration](#add-a-hover-integration).
+* If your app targets API 22 or lower, but the device you are testing on runs API 24 (Android 7, Nougat) then the app will crash when adding an Hover Integration because the library needs Run Time permissions to operate on API 24. The only known solution is to target API 23 or 24 and ask for the permission (as shown in [Add a Hover Integration](#add-a-hover-integration)).
 
 ## Introduction
 
@@ -127,10 +127,10 @@ startActivityForResult(i, 0);
 To use `startActivityForResult`, `this` must be an `Activity`, otherwise you should simply use `startActivty` (which will not tell you whether the request is being processed or not). In most cases you must supply arguments to `Hover.Builder` which are passed on to the Mobile Money Service. The required arguments for each request are included on the Supported Operators page. In most cases you supply extra arguments using the `extra()` method:
 
 {% highlight java %}
-Intent i = new Hover.Builder(this).request("pay_bill", amount, "Tsh").extra("who", pay_bill_no).extra("acct", acct_no).from("Vodacom");
+Intent i = new Hover.Builder(this).request("pay_bill", amount, "Tsh").extra("who", recipient_business_no).extra("acct", acct_no).from("Vodacom");
 {% endhighlight %}
 
-For convenience the `request()` method optionally takes the `amount`, `currency`, and `recipient`. There are also convience methods `amount(amount, currency)' and 'to(recipient)`.
+For convenience the `request()` method optionally takes the `amount`, `currency`, and `recipient`. There are also convience methods `amount(amount, currency)` and `to(recipient)`.
 
 ### 3. Use the result 
 
