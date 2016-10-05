@@ -8,7 +8,14 @@ layout: default
 
 As of Aug 29, 2016 the current version of the Hover SDK is 0.8.8
 
-This SDK supports Android 4.3 - 7.0 (API 18-24). It can be used in apps with a wider range, but you must check the API level yourself and only make a call to the Hover SDK if the user's Build API is within that range.
+This SDK supports Android 4.3 - 7.0 (API 18-24). It can be used in apps with a wider range, but you must add the following to your Manifest:
+{% highlight xml %}
+<uses-sdk tools:overrideLibrary="com.hover.sdk"/>
+{% endhighlight %}
+and check the API level yourself and only make a call to the Hover SDK if the user's Build API is within that range.
+{% highlight java %}
+if (Build.VERSION.SDK_INT >= 18)
+{% endhighlight %}
 
 **Known issues:**
 
@@ -103,7 +110,7 @@ public void onRequestPermissionsResult(int requestCode,	String permissions[], in
 }
 {% endhighlight %}
 
-The first argument to `HoverIntegration.add()`must be one of our supported Mobile Money Operators, which you can find [here](#).
+The first argument to `HoverIntegration.add()`must be one of our supported Mobile Money Operators, which you can find [here](https://www.usehover.com/countries/).
 
 The second argument can be `null` or an implementation of `HoverIntegration.HoverListener` which provides callbacks for errors or success upon adding the integration. More on it later. The final argument is the `Context`.
 
