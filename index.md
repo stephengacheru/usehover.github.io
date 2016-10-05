@@ -120,7 +120,7 @@ In this case the `hoverListener` `onSuccess` callback can be used to find out wh
 Create a request and launch the intent, for example, when a button is pressed:  
 
 {% highlight java %}
-Intent i = new Hover.Builder(this).request("send", amount, "Tsh", recipient).from("Vodacom");
+Intent i = new Hover.Builder(this).request("send", amount, "Tsh", recipient).from("vodacom_tanzania");
 startActivityForResult(i, 0);
 {% endhighlight %}
 
