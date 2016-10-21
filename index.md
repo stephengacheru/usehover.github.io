@@ -112,7 +112,7 @@ public void onRequestPermissionsResult(int requestCode,	String permissions[], in
 
 The first argument to `HoverIntegration.add()`must be one of our supported Mobile Money Operators, which you can find [here](https://www.usehover.com/countries/).
 
-The second argument can be `null` or an implementation of `HoverIntegration.HoverListener` which provides callbacks for errors or success upon adding the integration. More on it later. The final argument is the `Context`.
+The second argument can be `null` or an implementation of `HoverIntegration.HoverListener` which provides callbacks for errors or success upon adding the integration. [More on it later](http://docs.usehover.com/#hoverintegrationhoverlistener-interface). The final argument is the `Context`.
 
 You may also ask permission to use any Mobile Money available to the user. This is useful if you wish to support multiple operators in the same country or across multiple countries. This will ask the user to choose one of the operators supported by their SIM card. This will also automatically detect changes of the SIM card.
 
