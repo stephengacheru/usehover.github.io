@@ -57,7 +57,7 @@ dependencies {
 }
 {% endhighlight %}
 
-### 2. Add required Permissions and your Hover API Key to the Manifest
+### 2. Add required Permissions and your Hover API Token to the Manifest
 Permissions:
 
 {% highlight xml %}
@@ -73,12 +73,12 @@ Permissions:
 <uses-feature android:name="android.hardware.telephony"/>
 {% endhighlight %}
 
-Add your API key which you can find on your [Hover dashboard](https://www.usehover.com/apps) by clicking on the relevant app:
+Add your API token which you can find on your [Hover dashboard](https://www.usehover.com/apps) by clicking on the relevant app:
 
 {% highlight xml %}
 <meta-data
    android:name="com.hover.ApiKey"  
-   android:value="<YOUR_API_KEY>"/>
+   android:value="<YOUR_API_TOKEN>"/>
 {% endhighlight %}
 
 ## Using the SDK
