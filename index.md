@@ -224,7 +224,8 @@ All possible extras follow, please note that not all requests supply all extras.
 Extra | Description
 --- | ---
 `operator_name` |
-`action` | Should match the action supplied by to the request. e.g. "send"
+`action` | Should match the action slug by to the request. e.g. "send"
+`action_id` | Should match the action id from our supported operators page
 `code` | Transaction confirmation code, many MMO's supply these even for balance checks etc.
 `currency` | 
 `amount` | Amount of money sent or recieved (note that balance is a separate field)
@@ -232,7 +233,7 @@ Extra | Description
 `who` | Recipient or sender
 `request_timestamp` | Time user initiated transaction (Unix time)
 `response_timestamp` | Time at which the operator confirmed (The timestamp supplied in the confirmation message, Unix time)
-`orig_message` | Full confirmation message from the operator
+`response_message` | Full confirmation message from the operator
 
 ## More about verifying payments
 
