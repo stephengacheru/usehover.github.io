@@ -45,11 +45,9 @@ Add required permissions and API key to your Android manifest
 <uses-feature android:name="android.hardware.telephony"/>
 {% endhighlight %}
 
-{% highlight xml %}
-<meta-data
-   android:name="com.hover.ApiKey"  
-   android:value="a876bc786ad80e608788909f"/>
-{% endhighlight %}
+<figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;meta-data</span>
+   <span class="na">android:name=</span><span class="s">"com.hover.ApiKey"</span>  
+   <span class="na">android:value=</span><span class="s yellow">"a876bc786ad80e608788909f"</span><span class="nt">/&gt;</span></code></pre></figure>
 
 ## 2. Create a buy button
 
