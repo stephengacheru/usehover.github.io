@@ -94,7 +94,7 @@ BuyParameters buyParams = new BuyParameters.Builder(context)
     .setCallback(callback);
 
 buyButton.setBuyParameters(buyParams);
-};
+
 {% endhighlight %}
 
 See the [full API documentation](javascript:void(0);) for more information about these parameters.
