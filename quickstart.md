@@ -48,7 +48,7 @@ Add required permissions and API key to your Android manifest
 {% highlight xml %}
 <meta-data
    android:name="com.hover.ApiKey"  
-   android:value="cad46be34a2934a362d9e0b74da4b62c"/>
+   android:value="a876bc786ad80e608788909f"/>
 {% endhighlight %}
 
 ## 2. Create a buy button
