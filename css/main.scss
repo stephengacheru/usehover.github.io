@@ -14,3 +14,40 @@
   "modules/modules",
   "syntax-highlighting"
 ;
+
+.loading:after {
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: bottom;
+  -webkit-animation: ellipsis steps(4,end) 2000ms infinite;      
+  animation: ellipsis steps(4,end) 2000ms infinite;
+  content: "\2026";
+  width: 0px;
+  font-size: 14px;
+}
+
+@keyframes ellipsis {
+  to {
+    width: 12px;    
+  }
+}
+
+@-webkit-keyframes ellipsis {
+  to {
+    width: 12px;    
+  }
+}
+
+#interactive-wrapper {
+  margin: 2em 0;
+  border-left: 8px solid #f6c446;
+  padding-left: 0.75em;
+}
+
+p img {
+  float: right;
+  height: 320px;
+  margin-left: 1.5em;
+}
+
+.spacer { height: 4em; }
