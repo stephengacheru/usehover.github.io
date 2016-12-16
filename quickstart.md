@@ -87,12 +87,13 @@ BuyBtnCallback callback = new BuyBtnCallback() {
 
   @override
   public void onRequestMade(String operatorResponseMessage, String requestId) { }
+}
 
-  BuyParameters buyParams = new BuyParameters.Builder(context)
-      .setAmount("100", "Ksh")
-      .setCallback(callback);
+BuyParameters buyParams = new BuyParameters.Builder(context)
+    .setAmount("100", "Ksh")
+    .setCallback(callback);
 
-  buyButton.setBuyParameters(buyParams);
+buyButton.setBuyParameters(buyParams);
 };
 {% endhighlight %}
 
