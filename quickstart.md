@@ -86,8 +86,7 @@ BuyBtnCallback callback = new BuyBtnCallback() {
   public void onUserDenied() { }
 
   @override
-  public void onSuccess(int serviceId, String serviceName, String operatorName
-    String countryName, String currency) { }
+  public void onRequestMade(String operatorResponseMessage, String requestId) { }
 
   BuyParameters buyParams = new BuyParameters.Builder(context)
       .setAmount("100", "Ksh")
