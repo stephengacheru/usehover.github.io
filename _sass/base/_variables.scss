@@ -7,9 +7,9 @@ $large-screen-up: new-breakpoint(min-width $large-screen);
 
 
 // Typography
-@import url(https://fonts.googleapis.com/css?family=Open+Sans:300,600);
+@import url(https://fonts.googleapis.com/css?family=Lato:300,600);
 
-$base-font-family: "Open Sans", $font-stack-system;
+$base-font-family: "Lato", $font-stack-system;
 $heading-font-family: $base-font-family;
 
 // Font Sizes

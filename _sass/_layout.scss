@@ -1,7 +1,20 @@
 .page-content {
-    .wrapper {
-        @include outer-container;
-        padding: $base-spacing;
+    @include outer-container;
+
+    .sidebar {
+      @include  span-columns(3);
+      padding: $base-spacing;
+    }
+
+    .main {
+      @include span-columns(9);
+      padding: $base-spacing;
+    }
+
+    .main-old {
+      @include span-columns(9);
+      @include shift(2);
+      padding: $base-spacing;
     }
 
     ul {

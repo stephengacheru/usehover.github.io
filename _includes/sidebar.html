@@ -1,0 +1,27 @@
+<div class="sidebar">
+  <div class="sidebar-section">
+    <h3>Get started</h3>
+    <ul>
+      <li {% if page.nav-class == "overview" %} class="active" {% endif %}><a href="/new/">Overview</a></li>
+      <li {% if page.nav-class == "install-hover" %} class="active" {% endif %}><a href="/new/install">Install Hover</a></li>
+      <li {% if page.nav-class == "buy-button" %} class="active" {% endif %}><a href="/new/buy-button">Create a buy button</a></li>
+    </ul>
+  </div>
+  <div class="sidebar-section">
+    <h3>Custom integration</h3>
+    <ul>
+      <li {% if page.nav-class == "hover-integration" %} class="active" {% endif %}><a href="/new/hover-integration">Add a Hover integration</a></li>
+      <li {% if page.nav-class == "request-permissions" %} class="active" {% endif %}><a href="/new/request-permissions">Request permissions</a></li>
+      <li {% if page.nav-class == "transactions" %} class="active" {% endif %}><a href="/new/transactions">Make a transaction</a></li>
+      <li {% if page.nav-class == "transaction-results" %} class="active" {% endif %}><a href="/new/transaction-results">Use the result</a></li>
+    </ul>
+  </div>
+
+  <div class="sidebar-section">
+    <h3>Further reading</h3>
+    <ul>
+      <li><a href="http://docs.usehover.com/slate" target="blank">Operator reference</a></li>
+      <li>Example applications</li>
+    </ul>
+  </div>
+</div>

@@ -1,27 +1,11 @@
 ---
-layout: old
+layout: default
 nav-class: overview
 ---
 
-# Hover Android SDK
+# Welcome to Hover
 
 **Hover is currently in Alpha and may be unstable. If you have issues please get in touch with us.**
-
-As of Aug 29, 2016 the current version of the Hover SDK is 0.8.8
-
-This SDK supports Android 4.3 - 7.0 (API 18-24). It can be used in apps with a wider range, but you must add the following to your Manifest:
-{% highlight xml %}
-<uses-sdk tools:overrideLibrary="com.hover.sdk"/>
-{% endhighlight %}
-and check the API level yourself and only make a call to the Hover SDK if the user's Build API is within that range.
-{% highlight java %}
-if (Build.VERSION.SDK_INT >= 18)
-{% endhighlight %}
-
-**Known issues:**
-
-* The test function does basic validation, but does not ensure that you have all of the required fields for a particular action. It will return all the values that it found, and it is currently up to you to ensure that these match the required values for the action. You can safely ignore the PIN, since the API takes care of getting this from the user for you.
-* If your app targets API 22 or lower, but the device you are testing on runs API 24 (Android 7, Nougat) then the app will crash when adding an Hover Integration because the library needs Run Time permissions to operate on API 24. The only known solution is to target API 23 or 24 and ask for the permission (as shown in [Add a Hover Integration](#add-a-hover-integration)).
 
 ## Introduction
 
