@@ -41,7 +41,7 @@ Send the proof of payment to your servers for verification. Mobile networks are 
 # Transaction result details
 The details about a transaction are simply String extras on the data intent. To get the confirmation code just write `data.getStringExtra("code")`.
 
-All possible extras follow, please note that not all requests supply all extras. They depend on what the Mobile Money service supplies in the message.
+All possible extras follow, please note that not all requests supply all extras. They depend on what information the Mobile Money service supplies.
 
 Extra | Description
 --- | ---
