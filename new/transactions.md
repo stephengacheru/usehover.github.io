@@ -3,7 +3,7 @@ layout: default
 nav-class: transactions
 ---
 
-# Making a Request
+# Create a Transaction
 
 ## Create and Send the Request
 Create a request and launch the intent, for example, when a button is pressed: 
