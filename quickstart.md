@@ -26,7 +26,7 @@ repositories {
 }
 
 dependencies {
-  compile('com.hover:android-sdk:0.8.8@aar') { transitive = true; }
+  compile('com.hover:android-sdk:0.10.4@aar') { transitive = true; }
 }
 {% endhighlight %}
 
@@ -41,6 +41,8 @@ Add required permissions and API key to your Android manifest
 <uses-permission android:name="android.permission.BIND_ACCESSIBILITY_SERVICE"/>
 <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 <uses-permission android:name="android.permission.INTERNET"/>
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
 <uses-feature android:name="android.hardware.telephony"/>
 {% endhighlight %}
