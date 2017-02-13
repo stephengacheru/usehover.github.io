@@ -26,10 +26,9 @@ repositories {
 }
 
 dependencies {
-  compile('com.hover:android-sdk:0.10.1') { transitive = true; }
-  compile 'com.android.support:appcompat-v7:23.3.0'
-  compile 'com.android.support:support-v4:23.3.0'
-  compile 'com.android.support:recyclerview-v7:23.3.0'
+  compile('com.hover:android-sdk:0.10.4') { transitive = true; }
+  compile 'com.android.support:appcompat-v7:25.1.0'
+  compile 'com.android.support:support-v4:25.1.0'
 }
 {% endhighlight %}
 
@@ -44,6 +43,8 @@ dependencies {
     <uses-permission android:name="android.permission.BIND_ACCESSIBILITY_SERVICE"/>
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <uses-feature android:name="android.hardware.telephony"/>
 {% endhighlight %}
