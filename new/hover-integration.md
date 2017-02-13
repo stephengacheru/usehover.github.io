@@ -59,6 +59,6 @@ public interface HoverListener {
 }
 {% endhighlight %}
 
-If on `onError`, `onSIMError` or `onUserDenied` are called, then adding the integration has failed. The message passed will give the reason for failure. For SIMError, the user does not have a SIM that supports the integration requested or possibly any SIM at all. For UserDenied, the user did not give permission to use the integration requested. In this case you may show a message explaining why it is neccessary and ask them again by remaking the same call to `HoverIntegration.add()`.
+If `onError`, `onSIMError` or `onUserDenied` are called, then adding the integration has failed. The message passed will give the reason for failure. For SIMError, the user does not have a SIM that supports the integration requested or possibly any SIM at all. For UserDenied, the user did not give permission to use the integration requested. In this case you may show a message explaining why it is neccessary and ask them again by remaking the same call to `HoverIntegration.add()`.
 
 `onSuccess` passes back the service ID and Name (e.g Safaricom M-PESA), the operator name (e.g. Safaricom), country, and currency. This is especially useful if you passed a list of different services, one of which was choosen based on the SIM card and the User's choice.
