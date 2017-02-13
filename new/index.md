@@ -40,7 +40,7 @@ Hover receives and processes the result from the service asynchronously then sen
 
 Send the proof of payment to your servers for verification. Mobile networks are unreliable. If you can't reach your server, save the proof of payment and try again later.
 
-
+## In Summary
 
 ### The Hover Android SDK:
 
