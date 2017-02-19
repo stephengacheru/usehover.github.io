@@ -26,7 +26,7 @@ Choose one or more services to integrate from our [list](https://www.usehover.co
 
 ### 2. Create a transaction request
 
-Once you have permission you can make any request supported by the service. This consists in building an Intent and calling `startActivity()` or `startActivityForResult()` for Hover to execute it. If the service requires a PIN to execute the request, then Hover will present the user with a dialog to enter their PIN. This is stored encrypted on the user's device, never leaves, and is deleted as soon as it is used. That way you, the developer, does not have to worry about security.
+Once you have permission you can make any request supported by the service. This consists in building an Intent and calling `startActivity()` or `startActivityForResult()` for Hover to execute it. If the service requires a PIN to execute the request, then Hover will present the user with a dialog to enter their PIN. This is stored encrypted on the user's device, never leaves, and is deleted as soon as it is used. That way you, the developer, do not have to worry about security.
 
 ### 3. Check the progress 
 
