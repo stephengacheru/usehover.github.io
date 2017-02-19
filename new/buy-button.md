@@ -28,6 +28,8 @@ A few things to note here: due to issues on some devices, you must define`androi
 For the button to work you must call `setBuyParameters`. As input it takes a `HoverParameter` object which you get by using the `HoverParameter.Builder`.
 
 {% highlight java %}
+BuyButton buyButton = ((BuyButton) findViewById(R.id.hover_button));
+
 buyButton.setBuyParameters(
 	new HoverParameters.Builder(activtyInstance)
 		.request("send", "100", "Ksh", "+254 55 555 5555")
