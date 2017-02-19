@@ -5,7 +5,7 @@ nav-class: buy-button
 
 # Create a Hover Buy Button
 
-Fist [Add an Integration](http://docs.usehover.com/new/hover-integration/)
+First [Add an Integration](http://docs.usehover.com/new/hover-integration/)
 
 ## Declarative XML
 
@@ -21,7 +21,7 @@ Add the button to your layout just like a normal Button:
             android:text="@string/buy_string" />
 {% endhighlight %}
 
-A few things to note here: due to issues on some devices, you must define`android:gravity` and `android:textColor`. They can be whatever you want, but they must there. We also recomend setting a background color, the default is a dark blue. The default text for the button is "Buy", but you can set it to whatever you like.
+A few things to note here: due to issues on some devices, you must define`android:gravity` and `android:textColor`. They can be whatever you want, but they must be there. We also recomend setting a background color, the default is a dark blue. The default text for the button is "Buy", but you can set it to whatever you like.
 
 ## Customize Button Parameters
 
@@ -29,13 +29,13 @@ For the button to work you must call `setBuyParameters`. As input it takes a `Ho
 
 {% highlight java %}
 buyButton.setBuyParameters(
-				new HoverParameters.Builder(activtyInstance)
-						.request("send", "100", "Ksh", "+254 55 555 5555")
-						.from(8)
-						.build());
+	new HoverParameters.Builder(activtyInstance)
+		.request("send", "100", "Ksh", "+254 55 555 5555")
+		.from(8)
+		.build());
 {% endhighlight %}
 
-See [Create a Transaction](http://docs.usehover.com/new/transactions/) for details about the parameters. The action specified for the buy button must be an action that sends money (Otherwise, it wouldn't be a Buy button!).
+See [Create a Transaction](http://docs.usehover.com/new/transactions/) for details about the parameters. The action specified for the buy button must be an action that sends money (Otherwise it wouldn't be a Buy button!).
 
 ## Specify Callbacks
 
@@ -43,36 +43,36 @@ The callback functions are not required, but allow you to be notified on success
 
 {% highlight java %}
 private BuyButtonCallback mBtnCallbacks = new BuyButtonCallback() {
-		@Override public void onError(Throwable throwable) {
-			// Unexpected error
-		}
+	@Override public void onError(Throwable throwable) {
+		// Unexpected error
+	}
 
-		@Override public void onValidationError(String s) {
-			// Validation error details: [Create page]()
-		}
+	@Override public void onValidationError(String s) {
+		// Validation error details: [Create page]()
+	}
 
-		@Override public void onServiceError(String s) {
-			// Error during session. Possibly a low balance error or similar. Show to user so they can attempt to fix it.
-		}
+	@Override public void onServiceError(String s) {
+		// Error during session. Possibly a low balance error or similar. Show the user the message so they can attempt to fix it.
+	}
 
-		@Override public void onServiceProcessing(String s, int i) {
-			// Mobile Money operator is processing the request. The String s is the message from the operator. We recommend showing this message to the user so that they can see what is happening.
-		}
-	};
+	@Override public void onServiceProcessing(String s, int i) {
+		// Mobile Money operator is processing the request. The String s is the message from the operator. We recommend showing this message to the user so that they can see what is happening.
+	}
+};
   
   buyButton.setCallback(mBtnCallbacks, requestCode);
 {% endhighlight %}
 
-When the button is clicked it fires an Intent to Hover. If `requestCode` is specified (and the button is attached to an Activity) then you can catch the response by calling `onActivityResult` when your activity gets the result, which subsequently call the appropriate callbacks:
+When the button is clicked it fires an Intent to Hover. If `requestCode` is specified (and the button is attached to an Activity) then you can catch the response by calling `onActivityResult` when your activity gets the result, which will subsequently call the appropriate callbacks:
 
 {% highlight java %}
 @Override
-	protected void onActivityResult (int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		buyButton.onActivityResult(requestCode, resultCode, data);
-	}
+protected void onActivityResult (int requestCode, int resultCode, Intent data) {
+	super.onActivityResult(requestCode, resultCode, data);
+	buyButton.onActivityResult(requestCode, resultCode, data);
+}
 {% endhighlight %}
 
 ## Receive Transaction Result
 
-Finally, [receive the result of the buy action](http://docs.usehover.com/new/transaction-results/)
+Finally, [Receive the Result](http://docs.usehover.com/new/transaction-results/) of the buy action.
