@@ -5,6 +5,8 @@ nav-class: buy-button
 
 # Create a Hover Buy Button
 
+** Note that this is only available in 0.11.1 and up, which is still in alpha. Some services may not work with this version yet **
+
 First [Add an Integration](http://docs.usehover.com/new/hover-integration/)
 
 ## Declarative XML
